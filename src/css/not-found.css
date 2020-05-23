@@ -1,0 +1,30 @@
+/*Style of Not Found*/
+.notfound{
+    width: 100vw;
+    min-height: 100vh;
+    background: #0F223C;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap;
+}
+
+.imgnotfound{
+    min-height: 25vh;
+    min-width: 25vw;
+}
+
+#PrimerText h1 {
+    font-size: 3vw;
+}
+
+#SegundoText h3{
+    font-size: 2vw;
+}
+
+section{
+    text-align: center;
+    height: 549px;
+    color: whitesmoke;
+}
