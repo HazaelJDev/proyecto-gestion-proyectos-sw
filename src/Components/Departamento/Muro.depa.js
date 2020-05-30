@@ -23,105 +23,8 @@ import PropTypes from 'prop-types';
 import Box from '@material-ui/core/Box';
 import SaveIcon from '@material-ui/icons/Save';
 import CreateIcon from '@material-ui/icons/Create';
-
-function TabPanel(props) {
-  const { children, value, index, ...other } = props;
-  const classes = useStyles();
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`wrapped-tabpanel-${index}`}
-      aria-labelledby={`wrapped-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box className={classes.boxPanel}>
-          {children}
-        </Box>
-      )}
-    </div>
-  );
-}
-
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.any.isRequired,
-  value: PropTypes.any.isRequired,
-};
-
-function a11yProps(index) {
-  return {
-    id: `wrapped-tab-${index}`,
-    'aria-controls': `wrapped-tabpanel-${index}`,
-  };
-}
-
-
-const edificios = [
-  {
-    value: 'a',
-    label: 'A',
-  },
-  {
-    value: 'b',
-    label: 'B',
-  },
-  {
-    value: 'c',
-    label: 'C',
-  },
-  {
-    value: 'd',
-    label: 'D',
-  },
-  {
-    value: 'e',
-    label: 'E',
-  },
-  {
-    value: 'f',
-    label: 'F',
-  },
-  {
-    value: 'g',
-    label: 'G',
-  },
-  {
-    value: 'h',
-    label: 'H',
-  },
-  {
-    value: 'i',
-    label: 'I',
-  },
-  {
-    value: 'j',
-    label: 'J',
-  },
-];
-
-const plantas = [
-  {
-    value: 'alta',
-    label: 'Alta',
-  },
-  {
-    value: 'baja',
-    label: 'Baja',
-  },
-];
-
-const datos = {
-  "edificio": "f",
-  "departamento": "Centro de Computo",
-  "planta": "baja",
-  "jefe": "Victor Manuel Ayala Lara",
-  "horaEntrada": "07:00",
-  "horaComida": "15:00",
-  "horaSalida": "19:00"
-};
+import AddPhotoAlternateIcon from '@material-ui/icons/AddPhotoAlternate';
+import Input from '@material-ui/core/Input';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -187,7 +90,6 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     justifyContent: "space-around",
     alignItems: "center",
-
   },
   normalText: {
     color: theme.palette.text.primary,
@@ -225,67 +127,90 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     justifyContent: "space-around",
     alignItems: "center",
+  },
+  newPost: {
+    width: "100%",
+    height: "15rem",
+    backgroundColor: "",
+    padding: "2%",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-around",
+    alignItems: "strech",
+  },
+  newPostBotones: {
+    width: "100%",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "strech",
+  },
+  postsContainer: {
+    width: "100%",
   }
 
 }));
 
-export default function Lugares() {
+const publicaciones = [
+  {
+    titulo: "Entrega de credenciales nuevo ingreso 2020",
+    cuerpo: "La entrega de credenciales para alumnos de nuevo ingreso sera el día 20 de Septiembre en un horario de 9:00 a.m. a 16:00 p.m.",
+    imagenes: [],
+    fecha: "20201028 09:25:16"
+  },
+  {
+    titulo: "Reposicion de credenciales",
+    cuerpo: "Para los alumnos de 2° semestre en adelante, el tramite de reposicion de credencial vuelve a la normalidad apartir de la primera semana de Octubre",
+    imagenes: [],
+    fecha: "20201028 16:54:31"
+  },
+];
 
+export default function Lugares() {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [edi, setEdi] = React.useState(datos["edificio"]);
-  const [plant, setPlant] = React.useState(datos["planta"]);
-  const [depa, setDepa] = React.useState(datos["departamento"]);
-  const [jefe, setJefe] = React.useState(datos["jefe"]);
-  const [horaI, setHoraI] = React.useState(datos["horaEntrada"]);
-  const [horaC, setHoraC] = React.useState(datos["horaComida"]);
-  const [horaS, setHoraS] = React.useState(datos["horaSalida"]);
-  const [acciones, setAcciones] = React.useState(true);
+  
+  const [titulo, setTitulo] = React.useState('');
+  const [cuerpo, setCuerpo] = React.useState('');
+  const [publi, setPubli] = React.useState(publicaciones);
 
-  const handleChangeDepa = (event, newValue) => {
-    setDepa(newValue);
-  };
-  const handleChangeJefe = (event, newValue) => {
-    setJefe(newValue);
-  };
-  const handleChangeHoraI = (event, newValue) => {
-    setHoraI(newValue);
-  };
-  const handleChangeHoraC = (event, newValue) => {
-    setHoraC(newValue);
-  };
-  const handleChangeHoraS = (event, newValue) => {
-    setHoraS(newValue);
-  };
 
-  const handleChangeSelect1 = (event) => {
-    setEdi(event.target.value);
-  };
-  const handleChangeSelect2 = (event) => {
-    setPlant(event.target.value);
-  };
+  const handleChange = (event) => {
+    setCuerpo(event.target.value);
+  };  
+  
+  const handleChange2 = (event) => {
+    setTitulo(event.target.value);
+  };  
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
+
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const getFecha = () => {
+    let f = new Date();
+    let fecha = `${f.getDate()}/${f.getMonth()+1}/${f.getFullYear()} ${f.getHours()}:${f.getMinutes()}:${f.getSeconds()}`;
+    return fecha;
+  }
+
+  //moment('24/12/2019 09:15:00', "DD MM YYYY hh:mm:ss");
   
-  const handleActive = () => {
-    setAcciones(!acciones);
-    if(!acciones){
-      datos["edificio"] = edi;
-      datos["departamento"] = depa; 
-      datos["planta"] = plant;
-      datos["jefe"] = document.getElementById("jefeDepartamento").value;
-      datos["horaEntrada"] = document.getElementById("horarioEntrada").value;
-      datos["horaComida"] = document.getElementById("horarioComida").value;
-      datos["horaSalida"] = document.getElementById("horarioSalida").value;
-      console.log(datos);
-    }
-  };
+  const addNewPost = () => {
+    publicaciones.push({
+      titulo,
+      cuerpo,
+      imagenes: [],
+      fecha: getFecha()
+    });
+    setPubli(publi);
+    setTitulo("");
+    setCuerpo("");
+  }
 
 
   return (
@@ -389,141 +314,35 @@ export default function Lugares() {
         justify="space-around"
         alignItems="center"
       >
-        <Paper square className={classes.paperTabs}>
-          <TabPanel value="perfil" index="perfil">
-            <Avatar className={classes.avatar}>
-              <AccountBoxOutlined />
-            </Avatar>
-            <Typography component="h1" variant="h5">
-              { datos["departamento"] }
-            </Typography>
-            <div className={classes.paperTabs}>
-              <form className={classes.form} noValidate>
-               <TextField
-                  variant="outlined"
-                  margin="normal"
-                  disabled={acciones ? true : false}
-                  required
-                  select
-                  fullWidth
-                  value={edi}
-                  onChange={handleChangeSelect1}
-                  name="edificio"
-                  label="Edificio"
-                  id="edificio"
-                >
-                  {edificios.map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </TextField>
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  disabled={acciones ? true : false}
-                  required
-                  fullWidth
-                  value={ depa }
-                  name="departamento"
-                  label="Departamento"
-                  id="departamento"
-                  onChange={handleChangeDepa}
-                />
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  required
-                  disabled={acciones ? true : false}
-                  select
-                  fullWidth
-                  value={plant}
-                  onChange={handleChangeSelect2}
-                  name="nivelPlanta"
-                  label="Nivel de Planta"
-                  id="nivelPlanta"
-                >
-                  {plantas.map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </TextField>
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  disabled={acciones ? true : false}
-                  required
-                  value={jefe}
-                  fullWidth
-                  name="jefeDepartamento"
-                  label="Jefe de Departamento"
-                  id="jefeDepartamento"
-                  onChange={handleChangeJefe}
-                />
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  disabled={acciones ? true : false}
-                  value={horaI}
-                  required
-                  fullWidth
-                  name="horarioEntrada"
-                  label="Horario de Entrada"
-                  id="horarioEntrada"
-                  onChange={handleChangeHoraI}
-                />
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  required
-                  fullWidth
-                  disabled={acciones ? true : false}
-                  value={horaC}
-                  name="horarioComida"
-                  label="Hora de Comida"
-                  id="horarioComida"
-                  onChange={handleChangeHoraC}
-                />
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  required
-                  fullWidth
-                  disabled={acciones ? true : false}
-                  value={horaS}
-                  name="horarioSalida"
-                  label="Horario de Salida"
-                  id="horarioSalida"
-                  onChange={handleChangeHoraS}
-                />
-                {
-                    acciones ?     
-                    <Button
-                      fullWidth
-                      variant="outlined"
-                      color="primary"
-                      startIcon={<CreateIcon />}
-                      onClick={handleActive}
-                    >
-                      Actualizar
-                    </Button>    
-                    : 
-                    <Button
-                      fullWidth
-                      variant="outlined"
-                      color="primary"
-                      startIcon={<SaveIcon />}
-                      onClick={handleActive}
-                    >
-                      Guardar
-                    </Button>    
-                }
+        <form className={classes.newPost}>
+          <Input value={titulo} placeholder="Titulo" onChange={handleChange2} inputProps={{ 'aria-label': 'description' }} />
+          <TextField
+            id="outlined-multiline-flexible"
+            label="Cuerpo de la publicación"
+            multiline
+            rowsMax={4}
+            value={cuerpo}
+            placeholder="Cuerpo de la publicación"
+            onChange={handleChange}
+            variant="outlined"
+          />
+          <div className={classes.newPostBotones}>
+            <Button color="primary">
+              <AddPhotoAlternateIcon />
+            </Button>
 
-              </form>
-            </div>
-          </TabPanel>
-        </Paper>
+            <Button color="primary" onClick={addNewPost} disabled={titulo !== "" && cuerpo !== "" ? false : true} >
+              <CreateIcon />
+            </Button>
+          </div>
+        </form>
+        <div className={classes.postsContainer}>
+          <ul>
+            {
+              
+            }
+          </ul>
+        </div>
       </Grid>
     </Grid>
   );
